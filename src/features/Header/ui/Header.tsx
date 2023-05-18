@@ -1,5 +1,7 @@
 import React, {ReactElement, useEffect} from 'react';
+
 import {
+  TouchableOpacity,
   Image,
   ImageBackground,
   ImageStyle,
@@ -16,14 +18,19 @@ import {connect} from 'react-redux';
 
 interface IHeaderProps {
   user: IUser;
+  navigation: any;
 }
 
-export function HeaderComponent({user}: IHeaderProps): ReactElement {
+// @ts-ignore
+export function HeaderComponent({
+  user,
+  navigation,
+}: IHeaderProps): ReactElement {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(fetchUser('jsmith'));
-  }, [dispatch]);
+  }, []);
 
   return (
     <View style={styles.container} testID="header-container">
@@ -33,17 +40,25 @@ export function HeaderComponent({user}: IHeaderProps): ReactElement {
           uri: user.profileImage,
         }}>
         <View style={styles.userWrapper}>
-          <Text testID="header-username" style={styles.text}>
-            {user.nick}
-          </Text>
-          <Image
-            style={styles.image}
-            source={{
-              width: 64,
-              height: 64,
-              uri: user.avatar,
-            }}
-          />
+          {/* <Link to={{screen: 'Profile'}}> */}
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('Profile', {user});
+              console.info('Header [37]');
+            }}>
+            <Text testID="header-username" style={styles.text}>
+              {user.nick}
+            </Text>
+            <Image
+              style={styles.image}
+              source={{
+                width: 64,
+                height: 64,
+                uri: user.avatar,
+              }}
+            />
+          </TouchableOpacity>
+          {/* </Link> */}
         </View>
       </ImageBackground>
     </View>
@@ -55,7 +70,15 @@ const mapStateToProps = (state: RootState) =>
     user: state.user.data,
   } as IHeaderProps);
 
-export const Header = connect(mapStateToProps)(HeaderComponent);
+const mergeProps = (stateProps: any, dispatchProps: any, ownProps: any) => {
+  return {
+    ...stateProps,
+    ...dispatchProps,
+    ...ownProps,
+  };
+};
+
+export const Header = connect(mapStateToProps, {}, mergeProps)(HeaderComponent);
 
 interface AdditionalStyles {
   backgroundImage: ImageStyle;
