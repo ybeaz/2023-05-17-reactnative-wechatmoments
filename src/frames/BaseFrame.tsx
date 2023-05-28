@@ -5,7 +5,7 @@ import {Header} from '../features/Header/ui/Header';
 export const BaseFrame = (props: any) => {
   const {children, navigation} = props;
 
-  console.info('baseFrame [8]', {navigation});
+  console.info('baseFrame  [8]', {navigation});
   return (
     <View style={styles.container}>
       <Header navigation={navigation} />
