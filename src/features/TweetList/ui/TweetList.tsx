@@ -17,13 +17,14 @@ function TweetListComponent({tweets}: ITweetListProps): ReactElement {
 
   useEffect(() => {
     dispatch(fetchUserTweets('jsmith'));
-  }, [dispatch]);
+  }, []);
 
   return (
     <View style={styles.container}>
       <FlatList
         data={tweets}
         renderItem={tweet => <Tweet tweet={tweet.item} />}
+        keyExtractor={(item, index) => `tweet-${index}`}
       />
     </View>
   );

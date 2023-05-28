@@ -3,6 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import Home from '../features/Home/ui/Home';
+import {Profile} from '../features/Profile/ui/Profile';
 
 const Stack = createNativeStackNavigator();
 const MainNavigation = (): ReactElement => {
@@ -12,6 +13,11 @@ const MainNavigation = (): ReactElement => {
         <Stack.Screen
           name="Home"
           component={Home}
+          options={{title: 'Moments', headerTransparent: true}}
+        />
+        <Stack.Screen
+          name="Profile"
+          component={Profile}
           options={{title: 'Moments', headerTransparent: true}}
         />
       </Stack.Navigator>
